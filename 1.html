@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Solicitações - Tabela</title>
+    <style>
+        /* Base Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #e5e7eb; /* Fundo cinza claro */
+            color: #111;
+            font-size: 13px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container Principal */
+        .wrapper {
+            max-width: 1450px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Top Header */
+        .top-update {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        /* Dashboards Superiores (Mantidos para identidade visual) */
+        .dashboards {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .dash-card {
+            flex: 1;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .dash-header {
+            padding: 14px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .dash-header.normal { background-color: #65a30d; }
+        .dash-header.urgente { background-color: #ef4444; }
+
+        .dash-body {
+            display: flex;
+            padding: 16px 0;
+        }
+
+        .dash-col {
+            flex: 1;
+            text-align: center;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .dash-col:last-child { border-right: none; }
+
+        .dash-col .value {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #000;
+        }
+
+        .dash-col .value.atrasada { color: #ef4444; }
+
+        .dash-col .label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #000;
+        }
+
+        .dash-col .label.atrasada { color: #ef4444; }
+
+        /* Card Padrão para Filtros e Tabela */
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+            padding: 20px;
+        }
+
+        /* Filtros Section */
+        .filter-section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #111;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .form-control {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #111;
+            background-color: #f9fafb;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .filter-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-end;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Botões */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-outline {
+            background-color: #fff;
+            border-color: #d1d5db;
+            color: #374151;
+        }
+        .btn-outline:hover { background-color: #f3f4f6; }
+
+        .btn-excel { background-color: #10b981; color: #fff; }
+        .btn-excel:hover { background-color: #059669; }
+
+        .btn-pdf { background-color: #ef4444; color: #fff; }
+        .btn-pdf:hover { background-color: #dc2626; }
+
+        .btn-primary { background-color: #2563eb; color: #fff; }
+        .btn-primary:hover { background-color: #1d4ed8; }
+
+        /* Tabela Section */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 1200px; /* Garante que não amasse as colunas */
+        }
+
+        .data-table th {
+            background-color: #f9fafb;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e5e7eb;
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: middle;
+            color: #111;
+        }
+
+        .data-table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .text-bold { font-weight: 700; }
+        .text-nowrap { white-space: nowrap; }
+        .text-red { color: #ef4444; font-weight: 700; }
+        .text-green { color: #10b981; font-weight: 600; }
+        .text-orange { color: #f59e0b; font-weight: 600; }
+        .text-gray { color: #6b7280; font-size: 12px; }
+
+        /* Badges (Reutilizados do layout original) */
+        .badge-type {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+        .badge-type.urgente { background-color: #ef4444; }
+        .badge-type.normal { background-color: #4b5563; }
+
+        .status-pill {
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        .status-pill.atrasada { background-color: #ef4444; }
+        .status-pill.em-atendimento { background-color: #f59e0b; }
+        .status-pill.aberta { background-color: #3b82f6; }
+        .status-pill.finalizada { background-color: #10b981; }
+
+        /* Ícones de Ações */
+        .action-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #4b5563;
+            transition: 0.2s;
+        }
+        .btn-icon:hover {
+            background: #f3f4f6;
+            color: #111;
+        }
+        .btn-icon.play:hover { color: #2563eb; border-color: #2563eb; }
+        .btn-icon.check:hover { color: #10b981; border-color: #10b981; }
+        .btn-icon.cancel:hover { color: #ef4444; border-color: #ef4444; }
+
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="top-update">
+        Atualizado em: 26/02/2026 às 11:10
+    </div>
+
+    <div class="dashboards">
+        <div class="dash-card">
+            <div class="dash-header normal">Solicitações Normais (118)</div>
+            <div class="dash-body">
+                <div class="dash-col">
+                    <div class="value">53</div>
+                    <div class="label">Em aberto</div>
+                </div>
+                <div class="dash-col">
+                    <div class="value">65</div>
+                    <div class="label">Em atendimento</div>
+                </div>
+                <div class="dash-col">
+                    <div class="value atrasada">10</div>
+                    <div class="label atrasada">Atrasadas</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dash-card">
+            <div class="dash-header urgente">Solicitações Urgentes (8)</div>
+            <div class="dash-body">
+                <div class="dash-col">
+                    <div class="value">2</div>
+                    <div class="label">Em aberto</div>
+                </div>
+                <div class="dash-col">
+                    <div class="value">6</div>
+                    <div class="label">Em atendimento</div>
+                </div>
+                <div class="dash-col">
+                    <div class="value atrasada">7</div>
+                    <div class="label atrasada">Atrasadas</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="filter-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            Filtros de Solicitações
+        </div>
+        
+        <div class="filter-grid">
+            <div class="form-group">
+                <label>Tipo de solicitação</label>
+                <select class="form-control">
+                    <option value="">Todos</option>
+                    <option>Empréstimo</option>
+                    <option>Devolução</option>
+                    <option>Digitalização</option>
+                    <option>Implantação</option>
+                    <option>Suprimento</option>
+                    <option>Saída definitiva</option>
+                    <option>Movimentação</option>
+                    <option>Expurgo</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Prioridade</label>
+                <select class="form-control">
+                    <option value="">Todas</option>
+                    <option>Normal</option>
+                    <option>Urgente</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Status SLA</label>
+                <select class="form-control">
+                    <option value="">Todos</option>
+                    <option>No prazo</option>
+                    <option>Próximo ao vencimento</option>
+                    <option>Atrasado</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tipo de solicitante</label>
+                <select class="form-control">
+                    <option value="">Todos</option>
+                    <option>Cliente</option>
+                    <option>Interno</option>
+                    <option>Inativo</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Data inicial</label>
+                <input type="date" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Data final</label>
+                <input type="date" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Número da solicitação</label>
+                <input type="text" class="form-control" placeholder="Ex: 111712/2026">
+            </div>
+            <div class="form-group">
+                <label>Número da etiqueta SOS</label>
+                <input type="text" class="form-control" placeholder="Ex: SOS-123">
+            </div>
+        </div>
+
+        <div class="filter-actions">
+            <button class="btn btn-outline">Imprimir relatório de suprimento</button>
+            <button class="btn btn-outline">Imprimir relatório analítico</button>
+            <button class="btn btn-excel">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="16" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Excel
+            </button>
+            <button class="btn btn-pdf">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M10 13l-2 2 2 2"></path><path d="M14 17l2-2-2-2"></path></svg>
+                PDF
+            </button>
+            <button class="btn btn-primary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                Filtrar
+            </button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nº O.S / Data</th>
+                        <th>Unidade</th>
+                        <th>Tipo</th>
+                        <th>Prioridade</th>
+                        <th>Status</th>
+                        <th>Solicitante</th>
+                        <th>Itens / Total</th>
+                        <th>Tempo Decorrido</th>
+                        <th>Status SLA / Limite</th>
+                        <th>Finalização</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-nowrap">
+                            <span class="text-bold">102605/2025</span><br>
+                            <span class="text-gray">08/09/2025 11:39</span>
+                        </td>
+                        <td>G2 - GUARDA CEILANDIA II</td>
+                        <td class="text-bold">Digitalização</td>
+                        <td><span class="badge-type urgente">URGENTE</span></td>
+                        <td><span class="status-pill em-atendimento">EM ATENDIMENTO</span></td>
+                        <td>
+                            LETTICIA VITORIA<br>
+                            <span class="text-gray">Cliente</span>
+                        </td>
+                        <td><span class="text-bold">1</span> / 1</td>
+                        <td>5 meses 20 dias</td>
+                        <td class="text-nowrap">
+                            <span class="text-red">Atrasado</span><br>
+                            <span class="text-gray">08/09/2025 às 14:39</span>
+                        </td>
+                        <td>-</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn-icon" title="Visualizar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                                <button class="btn-icon" title="Histórico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></button>
+                                <button class="btn-icon check" title="Finalizar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-nowrap">
+                            <span class="text-bold">104142/2025</span><br>
+                            <span class="text-gray">01/10/2025 14:40</span>
+                        </td>
+                        <td>G2 - ANM-NACIONAL</td>
+                        <td class="text-bold">Movimentação</td>
+                        <td><span class="badge-type normal">NORMAL</span></td>
+                        <td><span class="status-pill aberta">ABERTA</span></td>
+                        <td>
+                            RAFAEL CARVALHO<br>
+                            <span class="text-gray">Interno</span>
+                        </td>
+                        <td><span class="text-bold">52</span> / 52</td>
+                        <td>1 hora 10 min</td>
+                        <td class="text-nowrap">
+                            <span class="text-green">No prazo</span><br>
+                            <span class="text-gray">03/10/2025 às 22:40</span>
+                        </td>
+                        <td>-</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn-icon" title="Visualizar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                                <button class="btn-icon play" title="Atender"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:2px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></button>
+                                <button class="btn-icon cancel" title="Cancelar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-nowrap">
+                            <span class="text-bold">110119/2026</span><br>
+                            <span class="text-gray">05/01/2026 14:09</span>
+                        </td>
+                        <td>G1 - GUARDA CEILANDIA I</td>
+                        <td class="text-bold">Empréstimo</td>
+                        <td><span class="badge-type normal">NORMAL</span></td>
+                        <td><span class="status-pill em-atendimento">EM ATENDIMENTO</span></td>
+                        <td>
+                            LETTICIA VITORIA<br>
+                            <span class="text-gray">Cliente</span>
+                        </td>
+                        <td><span class="text-bold">3</span> / 3</td>
+                        <td>1 dia 4 horas</td>
+                        <td class="text-nowrap">
+                            <span class="text-orange">Próx. ao vencimento</span><br>
+                            <span class="text-gray">05/01/2026 às 17:09</span>
+                        </td>
+                        <td>-</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn-icon" title="Visualizar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                                <button class="btn-icon" title="Histórico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></button>
+                                <button class="btn-icon check" title="Finalizar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr style="background-color: #f9fafb;">
+                        <td class="text-nowrap">
+                            <span class="text-bold">111205/2026</span><br>
+                            <span class="text-gray">19/01/2026 14:30</span>
+                        </td>
+                        <td>G2 - IPREVDF</td>
+                        <td class="text-bold">Saída definitiva</td>
+                        <td><span class="badge-type urgente">URGENTE</span></td>
+                        <td><span class="status-pill finalizada">FINALIZADA</span></td>
+                        <td>
+                            LETTICIA VITORIA<br>
+                            <span class="text-gray">Cliente</span>
+                        </td>
+                        <td><span class="text-bold">1</span> / 1</td>
+                        <td>Finalizado em 2h</td>
+                        <td class="text-nowrap">
+                            <span class="text-green">Atendido no prazo</span><br>
+                            <span class="text-gray">19/01/2026 às 17:30</span>
+                        </td>
+                        <td class="text-bold">19/01/2026 16:15</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn-icon" title="Visualizar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                                <button class="btn-icon" title="Histórico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
