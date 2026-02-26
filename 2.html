@@ -72,7 +72,7 @@
             flex: 1;
             background: var(--color-white);
             border: 1px solid var(--color-gray-200);
-            border-radius: 8px;
+            border-radius: 1rem;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
@@ -214,21 +214,35 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 24px;
         }
 
         .os-card {
+            position: relative;
             background: var(--color-white);
-            border: 1px solid var(--color-gray-200);
+            border: 2px solid var(--color-gray-200);
             border-radius: 8px;
-            padding: 16px 20px;
+            padding: 24px 20px 16px 20px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border-left-width: 5px;
+            margin-top: 8px;
         }
 
-        .os-card.urgente { border-left-color: var(--color-red-600); }
-        .os-card.normal { border-left-color: var(--color-lime-600); }
-        .os-card.finalizada { border-left-color: var(--color-green-500); }
+        .os-card.urgente { border-color: var(--color-red-600); }
+        .os-card.normal { border-color: var(--color-lime-600); }
+        .os-card.finalizada { border-color: var(--color-green-500); }
+
+        .card-top-badge {
+            position: absolute;
+            top: 0;
+            left: 20px;
+            transform: translateY(-50%);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            z-index: 1;
+        }
 
         .card-header {
             display: flex;
@@ -275,6 +289,11 @@
 
         .badge-normal {
             background-color: var(--color-lime-600);
+            color: var(--color-white);
+        }
+
+        .badge-finalizada {
+            background-color: var(--color-green-500);
             color: var(--color-white);
         }
 
@@ -512,13 +531,13 @@
 
         <div class="os-list">
             <div class="os-card urgente">
+                <span class="card-top-badge badge-urgent">URGENTE</span>
                 <div class="card-header">
                     <div class="os-title-block">
                         <div class="os-num">O.S: 111712/2026</div>
                         <div class="os-date">Abertura: 02/01/2026 às 09:15</div>
                     </div>
                     <div class="badges-right">
-                        <span class="badge badge-urgent">URGENTE</span>
                         <span class="badge badge-tag">DIGITALIZAÇÃO</span>
                         <span class="badge badge-status-atendimento">EM ATENDIMENTO</span>
                         <span class="badge badge-sla-atrasado">SLA ATRASADO</span>
@@ -571,13 +590,13 @@
             </div>
 
             <div class="os-card normal">
+                <span class="card-top-badge badge-normal">NORMAL</span>
                 <div class="card-header">
                     <div class="os-title-block">
                         <div class="os-num">O.S: 112005/2026</div>
                         <div class="os-date">Abertura: 25/02/2026 às 14:20</div>
                     </div>
                     <div class="badges-right">
-                        <span class="badge badge-normal">NORMAL</span>
                         <span class="badge badge-tag">MOVIMENTAÇÃO</span>
                         <span class="badge badge-status-aberta">ABERTA</span>
                         <span class="badge badge-sla-prazo">SLA NO PRAZO</span>
@@ -629,13 +648,13 @@
             </div>
 
             <div class="os-card finalizada">
+                <span class="card-top-badge badge-finalizada">NORMAL</span>
                 <div class="card-header">
                     <div class="os-title-block">
                         <div class="os-num">O.S: 110998/2026</div>
                         <div class="os-date">Abertura: 15/01/2026 às 10:00</div>
                     </div>
                     <div class="badges-right">
-                        <span class="badge badge-normal">NORMAL</span>
                         <span class="badge badge-tag">EMPRÉSTIMO</span>
                         <span class="badge badge-status-finalizada">FINALIZADA</span>
                         <span class="badge badge-sla-prazo">SLA CUMPRIDO</span>
