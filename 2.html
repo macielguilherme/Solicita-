@@ -5,27 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Solicitações</title>
     <style>
-        /* Variáveis exatas do seu output.css */
         :root {
             --color-red-50: oklch(97.1% 0.013 17.38);
             --color-red-100: oklch(93.6% 0.032 17.717);
             --color-red-500: oklch(63.7% 0.237 25.331);
             --color-red-600: oklch(57.7% 0.245 27.325);
             --color-red-700: oklch(50.5% 0.213 27.518);
-            
             --color-amber-500: oklch(76.9% 0.188 70.08);
             --color-yellow-500: oklch(79.5% 0.184 86.047);
-            
             --color-lime-50: oklch(98.6% 0.031 120.757);
             --color-lime-600: oklch(64.8% 0.2 131.684);
-            
             --color-green-500: oklch(72.3% 0.219 149.579);
             --color-green-600: oklch(62.7% 0.194 149.214);
-            
             --color-blue-50: oklch(97% 0.014 254.604);
             --color-blue-500: oklch(62.3% 0.214 259.815);
             --color-blue-600: oklch(54.6% 0.245 262.881);
-            
             --color-gray-50: oklch(98.5% 0.002 247.839);
             --color-gray-100: oklch(96.7% 0.003 264.542);
             --color-gray-200: oklch(92.8% 0.006 264.531);
@@ -33,12 +27,10 @@
             --color-gray-500: oklch(55.1% 0.027 264.364);
             --color-gray-800: oklch(27.8% 0.033 256.848);
             --color-gray-900: oklch(21% 0.034 264.665);
-            
             --color-zinc-100: oklch(96.7% 0.001 286.375);
             --color-zinc-200: oklch(92% 0.004 286.32);
             --color-white: #fff;
             --color-primary: #172731;
-            
             --font-sans: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             --border-color: #d0d0d0;
         }
@@ -63,7 +55,6 @@
             padding: 24px 20px;
         }
 
-        /* Top Header */
         .top-update {
             text-align: right;
             font-size: 12px;
@@ -71,7 +62,6 @@
             margin-bottom: 16px;
         }
 
-        /* Dashboards Resumo */
         .dashboards {
             display: flex;
             gap: 16px;
@@ -82,7 +72,7 @@
             flex: 1;
             background: var(--color-white);
             border: 1px solid var(--color-gray-200);
-            border-radius: 4px;
+            border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
@@ -127,14 +117,12 @@
             text-transform: uppercase;
         }
 
-        /* Layout de Conteúdo */
         .main-content {
             display: flex;
             gap: 20px;
             align-items: flex-start;
         }
 
-        /* Sidebar de Filtros */
         .sidebar {
             width: 280px;
             flex-shrink: 0;
@@ -144,7 +132,7 @@
             background: var(--color-white);
             padding: 20px;
             border: 1px solid var(--color-gray-200);
-            border-radius: 4px;
+            border-radius: 8px;
             position: sticky;
             top: 24px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
@@ -193,7 +181,6 @@
             gap: 8px;
         }
 
-        /* Botões */
         .btn {
             width: 100%;
             padding: 8px 12px;
@@ -210,7 +197,7 @@
             background-color: var(--color-blue-600);
             color: var(--color-white);
         }
-        
+
         .btn-primary:hover { opacity: 0.9; }
 
         .btn-outline {
@@ -223,7 +210,6 @@
             background-color: var(--color-gray-200);
         }
 
-        /* Lista de OS */
         .os-list {
             flex: 1;
             display: flex;
@@ -234,7 +220,7 @@
         .os-card {
             background: var(--color-white);
             border: 1px solid var(--color-gray-200);
-            border-radius: 4px;
+            border-radius: 8px;
             padding: 16px 20px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             border-left-width: 5px;
@@ -274,7 +260,6 @@
             justify-content: flex-end;
         }
 
-        /* Badges Coloridos */
         .badge {
             padding: 4px 10px;
             border-radius: 4px;
@@ -354,7 +339,6 @@
         .text-danger { color: var(--color-red-600); }
         .text-success { color: var(--color-green-600); }
 
-        /* Ações na O.S */
         .card-actions {
             display: flex;
             gap: 8px;
@@ -400,7 +384,6 @@
     </style>
 </head>
 <body>
-
 <div class="wrapper">
     <div class="top-update">
         Última atualização: 26/02/2026 às 11:44
@@ -449,7 +432,6 @@
     </div>
 
     <div class="main-content">
-        
         <div class="sidebar">
             <div class="sidebar-title">Filtros</div>
 
@@ -529,7 +511,6 @@
         </div>
 
         <div class="os-list">
-            
             <div class="os-card urgente">
                 <div class="card-header">
                     <div class="os-title-block">
@@ -702,10 +683,8 @@
                     <button class="btn-action">Histórico</button>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-
 </body>
 </html>
