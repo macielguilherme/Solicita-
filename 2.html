@@ -1,709 +1,710 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Solicitações</title>
-    <style>
-        /* Variáveis exatas do seu output.css */
-        :root {
-            --color-red-50: oklch(97.1% 0.013 17.38);
-            --color-red-100: oklch(93.6% 0.032 17.717);
-            --color-red-500: oklch(63.7% 0.237 25.331);
-            --color-red-600: oklch(57.7% 0.245 27.325);
-            --color-red-700: oklch(50.5% 0.213 27.518);
-            
-            --color-amber-500: oklch(76.9% 0.188 70.08);
-            --color-yellow-500: oklch(79.5% 0.184 86.047);
-            
-            --color-lime-50: oklch(98.6% 0.031 120.757);
-            --color-lime-600: oklch(64.8% 0.2 131.684);
-            
-            --color-green-500: oklch(72.3% 0.219 149.579);
-            --color-green-600: oklch(62.7% 0.194 149.214);
-            
-            --color-blue-50: oklch(97% 0.014 254.604);
-            --color-blue-500: oklch(62.3% 0.214 259.815);
-            --color-blue-600: oklch(54.6% 0.245 262.881);
-            
-            --color-gray-50: oklch(98.5% 0.002 247.839);
-            --color-gray-100: oklch(96.7% 0.003 264.542);
-            --color-gray-200: oklch(92.8% 0.006 264.531);
-            --color-gray-300: oklch(87.2% 0.01 258.338);
-            --color-gray-500: oklch(55.1% 0.027 264.364);
-            --color-gray-800: oklch(27.8% 0.033 256.848);
-            --color-gray-900: oklch(21% 0.034 264.665);
-            
-            --color-zinc-100: oklch(96.7% 0.001 286.375);
-            --color-zinc-200: oklch(92% 0.004 286.32);
-            --color-white: #fff;
-            --color-primary: #172731;
-            
-            --font-sans: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            --border-color: #d0d0d0;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Solicitações</title>
+    <style>
+        /* Variáveis exatas do seu output.css */
+        :root {
+            --color-red-50: oklch(97.1% 0.013 17.38);
+            --color-red-100: oklch(93.6% 0.032 17.717);
+            --color-red-500: oklch(63.7% 0.237 25.331);
+            --color-red-600: oklch(57.7% 0.245 27.325);
+            --color-red-700: oklch(50.5% 0.213 27.518);
+            
+            --color-amber-500: oklch(76.9% 0.188 70.08);
+            --color-yellow-500: oklch(79.5% 0.184 86.047);
+            
+            --color-lime-50: oklch(98.6% 0.031 120.757);
+            --color-lime-600: oklch(64.8% 0.2 131.684);
+            
+            --color-green-500: oklch(72.3% 0.219 149.579);
+            --color-green-600: oklch(62.7% 0.194 149.214);
+            
+            --color-blue-50: oklch(97% 0.014 254.604);
+            --color-blue-500: oklch(62.3% 0.214 259.815);
+            --color-blue-600: oklch(54.6% 0.245 262.881);
+            
+            --color-gray-50: oklch(98.5% 0.002 247.839);
+            --color-gray-100: oklch(96.7% 0.003 264.542);
+            --color-gray-200: oklch(92.8% 0.006 264.531);
+            --color-gray-300: oklch(87.2% 0.01 258.338);
+            --color-gray-500: oklch(55.1% 0.027 264.364);
+            --color-gray-800: oklch(27.8% 0.033 256.848);
+            --color-gray-900: oklch(21% 0.034 264.665);
+            
+            --color-zinc-100: oklch(96.7% 0.001 286.375);
+            --color-zinc-200: oklch(92% 0.004 286.32);
+            --color-white: #fff;
+            --color-primary: #172731;
+            
+            --font-sans: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --border-color: #d0d0d0;
+        }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-sans);
-        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-sans);
+        }
 
-        body {
-            background-color: var(--color-gray-100);
-            color: var(--color-gray-900);
-            font-size: 13px;
-            -webkit-font-smoothing: antialiased;
-        }
+        body {
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-900);
+            font-size: 13px;
+            -webkit-font-smoothing: antialiased;
+        }
 
-        .wrapper {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 24px 20px;
-        }
+        .wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
 
-        /* Top Header */
-        .top-update {
-            text-align: right;
-            font-size: 12px;
-            color: var(--color-gray-500);
-            margin-bottom: 16px;
-        }
+        /* Top Header */
+        .top-update {
+            text-align: right;
+            font-size: 12px;
+            color: var(--color-gray-500);
+            margin-bottom: 16px;
+        }
 
-        /* Dashboards Resumo */
-        .dashboards {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
+        /* Dashboards Resumo */
+        .dashboards {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
 
-        .dash-card {
-            flex: 1;
-            background: var(--color-white);
-            border: 1px solid var(--color-gray-200);
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
+        .dash-card {
+            flex: 1;
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
 
-        .dash-header {
-            padding: 14px 16px;
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--color-white);
-        }
+        .dash-header {
+            padding: 14px 16px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-white);
+        }
 
-        .dash-header.normal { background-color: var(--color-lime-600); }
-        .dash-header.urgente { background-color: var(--color-red-600); }
+        .dash-header.normal { background-color: var(--color-lime-600); }
+        .dash-header.urgente { background-color: var(--color-red-600); }
 
-        .dash-body {
-            display: flex;
-            padding: 16px 0;
-        }
+        .dash-body {
+            display: flex;
+            padding: 16px 0;
+        }
 
-        .dash-col {
-            flex: 1;
-            text-align: center;
-            border-right: 1px solid var(--color-gray-200);
-        }
+        .dash-col {
+            flex: 1;
+            text-align: center;
+            border-right: 1px solid var(--color-gray-200);
+        }
 
-        .dash-col:last-child { border-right: none; }
+        .dash-col:last-child { border-right: none; }
 
-        .dash-col .value {
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 2px;
-            color: var(--color-gray-900);
-        }
+        .dash-col .value {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 2px;
+            color: var(--color-gray-900);
+        }
 
-        .dash-col .value.alert { color: var(--color-red-600); }
-        .dash-col .value.active { color: var(--color-blue-600); }
+        .dash-col .value.alert { color: var(--color-red-600); }
+        .dash-col .value.active { color: var(--color-blue-600); }
 
-        .dash-col .label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--color-gray-500);
-            text-transform: uppercase;
-        }
+        .dash-col .label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-gray-500);
+            text-transform: uppercase;
+        }
 
-        /* Layout de Conteúdo */
-        .main-content {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-        }
+        /* Layout de Conteúdo */
+        .main-content {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
 
-        /* Sidebar de Filtros */
-        .sidebar {
-            width: 280px;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            background: var(--color-white);
-            padding: 20px;
-            border: 1px solid var(--color-gray-200);
-            border-radius: 4px;
-            position: sticky;
-            top: 24px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
+        /* Sidebar de Filtros */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: var(--color-white);
+            padding: 20px;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 4px;
+            position: sticky;
+            top: 24px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
 
-        .sidebar-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--color-primary);
-            border-bottom: 2px solid var(--color-gray-200);
-            padding-bottom: 12px;
-            text-transform: uppercase;
-        }
+        .sidebar-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-primary);
+            border-bottom: 2px solid var(--color-gray-200);
+            padding-bottom: 12px;
+            text-transform: uppercase;
+        }
 
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
 
-        .filter-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--color-gray-800);
-        }
+        .filter-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-gray-800);
+        }
 
-        .form-control {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            border-radius: 3px;
-            font-size: 13px;
-            color: var(--color-gray-900);
-            background-color: var(--color-white);
-            transition: border-color 0.15s;
-        }
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            font-size: 13px;
+            color: var(--color-gray-900);
+            background-color: var(--color-white);
+            transition: border-color 0.15s;
+        }
 
-        .form-control:focus {
-            outline: none;
-            border-color: var(--color-blue-500);
-            box-shadow: 0 0 0 1px var(--color-blue-500);
-        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-blue-500);
+            box-shadow: 0 0 0 1px var(--color-blue-500);
+        }
 
-        .date-row {
-            display: flex;
-            gap: 8px;
-        }
+        .date-row {
+            display: flex;
+            gap: 8px;
+        }
 
-        /* Botões */
-        .btn {
-            width: 100%;
-            padding: 8px 12px;
-            border-radius: 3px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            border: 1px solid transparent;
-            text-align: center;
-            transition: all 0.2s;
-        }
+        /* Botões */
+        .btn {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 3px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            text-align: center;
+            transition: all 0.2s;
+        }
 
-        .btn-primary {
-            background-color: var(--color-blue-600);
-            color: var(--color-white);
-        }
-        
-        .btn-primary:hover { opacity: 0.9; }
+        .btn-primary {
+            background-color: var(--color-blue-600);
+            color: var(--color-white);
+        }
+        
+        .btn-primary:hover { opacity: 0.9; }
 
-        .btn-outline {
-            background-color: var(--color-gray-50);
-            color: var(--color-gray-800);
-            border-color: var(--color-gray-300);
-        }
+        .btn-outline {
+            background-color: var(--color-gray-50);
+            color: var(--color-gray-800);
+            border-color: var(--color-gray-300);
+        }
 
-        .btn-outline:hover {
-            background-color: var(--color-gray-200);
-        }
+        .btn-outline:hover {
+            background-color: var(--color-gray-200);
+        }
 
-        /* Lista de OS */
-        .os-list {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+        /* Lista de OS */
+        .os-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
-        .os-card {
-            background: var(--color-white);
-            border: 1px solid var(--color-gray-200);
-            border-radius: 4px;
-            padding: 16px 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border-left-width: 5px;
-        }
+        .os-card {
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-200);
+            border-radius: 4px;
+            padding: 16px 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-left-width: 5px;
+        }
 
-        .os-card.urgente { border-left-color: var(--color-red-600); }
-        .os-card.normal { border-left-color: var(--color-lime-600); }
-        .os-card.finalizada { border-left-color: var(--color-green-500); }
+        .os-card.urgente { border-left-color: var(--color-red-600); }
+        .os-card.normal { border-left-color: var(--color-lime-600); }
+        .os-card.finalizada { border-left-color: var(--color-green-500); }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--color-gray-200);
-        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--color-gray-200);
+        }
 
-        .os-title-block .os-num {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--color-primary);
-        }
+        .os-title-block .os-num {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--color-primary);
+        }
 
-        .os-title-block .os-date {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--color-gray-500);
-            margin-top: 4px;
-        }
+        .os-title-block .os-date {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-gray-500);
+            margin-top: 4px;
+        }
 
-        .badges-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
+        .badges-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
 
-        /* Badges Coloridos */
-        .badge {
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
+        /* Badges Coloridos */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
 
-        .badge-urgent {
-            background-color: var(--color-red-600);
-            color: var(--color-white);
-        }
+        .badge-urgent {
+            background-color: var(--color-red-600);
+            color: var(--color-white);
+        }
 
-        .badge-normal {
-            background-color: var(--color-lime-600);
-            color: var(--color-white);
-        }
+        .badge-normal {
+            background-color: var(--color-lime-600);
+            color: var(--color-white);
+        }
 
-        .badge-tag {
-            background-color: var(--color-gray-800);
-            color: var(--color-white);
-        }
+        .badge-tag {
+            background-color: var(--color-gray-800);
+            color: var(--color-white);
+        }
 
-        .badge-status-atendimento {
-            background-color: var(--color-amber-500);
-            color: var(--color-white);
-        }
+        .badge-status-atendimento {
+            background-color: var(--color-amber-500);
+            color: var(--color-white);
+        }
 
-        .badge-status-aberta {
-            background-color: var(--color-blue-500);
-            color: var(--color-white);
-        }
+        .badge-status-aberta {
+            background-color: var(--color-blue-500);
+            color: var(--color-white);
+        }
 
-        .badge-status-finalizada {
-            background-color: var(--color-green-500);
-            color: var(--color-white);
-        }
+        .badge-status-finalizada {
+            background-color: var(--color-green-500);
+            color: var(--color-white);
+        }
 
-        .badge-sla-atrasado {
-            background-color: var(--color-red-100);
-            color: var(--color-red-700);
-            border: 1px solid var(--color-red-500);
-        }
+        .badge-sla-atrasado {
+            background-color: var(--color-red-100);
+            color: var(--color-red-700);
+            border: 1px solid var(--color-red-500);
+        }
 
-        .badge-sla-prazo {
-            background-color: var(--color-gray-100);
-            color: var(--color-gray-800);
-            border: 1px solid var(--color-gray-300);
-        }
+        .badge-sla-prazo {
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-800);
+            border: 1px solid var(--color-gray-300);
+        }
 
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px 12px;
-            margin-bottom: 16px;
-        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px 12px;
+            margin-bottom: 16px;
+        }
 
-        .info-block {
-            display: flex;
-            flex-direction: column;
-        }
+        .info-block {
+            display: flex;
+            flex-direction: column;
+        }
 
-        .info-label {
-            font-size: 11px;
-            color: var(--color-gray-500);
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
+        .info-label {
+            font-size: 11px;
+            color: var(--color-gray-500);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
 
-        .info-value {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--color-gray-900);
-        }
-        
-        .text-danger { color: var(--color-red-600); }
-        .text-success { color: var(--color-green-600); }
+        .info-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+        
+        .text-danger { color: var(--color-red-600); }
+        .text-success { color: var(--color-green-600); }
 
-        /* Ações na O.S */
-        .card-actions {
-            display: flex;
-            gap: 8px;
-            background-color: var(--color-gray-50);
-            padding: 12px;
-            border-radius: 4px;
-            border: 1px solid var(--color-gray-200);
-        }
+        /* Ações na O.S */
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            background-color: var(--color-gray-50);
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid var(--color-gray-200);
+        }
 
-        .btn-action {
-            padding: 6px 12px;
-            border: 1px solid var(--color-gray-300);
-            background: var(--color-white);
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--color-gray-800);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+        .btn-action {
+            padding: 6px 12px;
+            border: 1px solid var(--color-gray-300);
+            background: var(--color-white);
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-gray-800);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-        .btn-action:hover {
-            background: var(--color-gray-100);
-            border-color: var(--color-gray-500);
-        }
+        .btn-action:hover {
+            background: var(--color-gray-100);
+            border-color: var(--color-gray-500);
+        }
 
-        .btn-action.primary {
-            background: var(--color-blue-600);
-            color: var(--color-white);
-            border-color: var(--color-blue-600);
-        }
-        .btn-action.primary:hover { background: var(--color-blue-500); }
+        .btn-action.primary {
+            background: var(--color-blue-600);
+            color: var(--color-white);
+            border-color: var(--color-blue-600);
+        }
+        .btn-action.primary:hover { background: var(--color-blue-500); }
 
-        .btn-action.success {
-            background: var(--color-green-600);
-            color: var(--color-white);
-            border-color: var(--color-green-600);
-        }
-        .btn-action.success:hover { background: var(--color-green-500); }
-        
-        .btn-action.danger { color: var(--color-red-600); }
-        .btn-action.danger:hover { background: var(--color-red-50); border-color: var(--color-red-500); }
-    </style>
+        .btn-action.success {
+            background: var(--color-green-600);
+            color: var(--color-white);
+            border-color: var(--color-green-600);
+        }
+        .btn-action.success:hover { background: var(--color-green-500); }
+        
+        .btn-action.danger { color: var(--color-red-600); }
+        .btn-action.danger:hover { background: var(--color-red-50); border-color: var(--color-red-500); }
+    </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <div class="top-update">
-        Última atualização: 26/02/2026 às 11:44
-    </div>
+    <div class="top-update">
+        Última atualização: 26/02/2026 às 11:44
+    </div>
 
-    <div class="dashboards">
-        <div class="dash-card">
-            <div class="dash-header normal">
-                Solicitações Normais (118)
-            </div>
-            <div class="dash-body">
-                <div class="dash-col">
-                    <div class="value active">53</div>
-                    <div class="label">Abertas</div>
-                </div>
-                <div class="dash-col">
-                    <div class="value">65</div>
-                    <div class="label">Em atendimento</div>
-                </div>
-                <div class="dash-col">
-                    <div class="value alert">10</div>
-                    <div class="label">Atrasadas</div>
-                </div>
-            </div>
-        </div>
+    <div class="dashboards">
+        <div class="dash-card">
+            <div class="dash-header normal">
+                Solicitações Normais (118)
+            </div>
+            <div class="dash-body">
+                <div class="dash-col">
+                    <div class="value active">53</div>
+                    <div class="label">Abertas</div>
+                </div>
+                <div class="dash-col">
+                    <div class="value">65</div>
+                    <div class="label">Em atendimento</div>
+                </div>
+                <div class="dash-col">
+                    <div class="value alert">10</div>
+                    <div class="label">Atrasadas</div>
+                </div>
+            </div>
+        </div>
 
-        <div class="dash-card">
-            <div class="dash-header urgente">
-                Solicitações Urgentes (8)
-            </div>
-            <div class="dash-body">
-                <div class="dash-col">
-                    <div class="value active">2</div>
-                    <div class="label">Abertas</div>
-                </div>
-                <div class="dash-col">
-                    <div class="value">6</div>
-                    <div class="label">Em atendimento</div>
-                </div>
-                <div class="dash-col">
-                    <div class="value alert">7</div>
-                    <div class="label">Atrasadas</div>
-                </div>
-            </div>
-        </div>
-    </div>
+        <div class="dash-card">
+            <div class="dash-header urgente">
+                Solicitações Urgentes (8)
+            </div>
+            <div class="dash-body">
+                <div class="dash-col">
+                    <div class="value active">2</div>
+                    <div class="label">Abertas</div>
+                </div>
+                <div class="dash-col">
+                    <div class="value">6</div>
+                    <div class="label">Em atendimento</div>
+                </div>
+                <div class="dash-col">
+                    <div class="value alert">7</div>
+                    <div class="label">Atrasadas</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="main-content">
-        
-        <div class="sidebar">
-            <div class="sidebar-title">Filtros</div>
+    <div class="main-content">
+        
+        <div class="sidebar">
+            <div class="sidebar-title">Filtros</div>
 
-            <div class="filter-group date-row">
-                <div style="flex: 1;">
-                    <label class="filter-label">Data Inicial</label>
-                    <input type="date" class="form-control" value="2000-01-01">
-                </div>
-                <div style="flex: 1;">
-                    <label class="filter-label">Data Final</label>
-                    <input type="date" class="form-control" value="2026-02-26">
-                </div>
-            </div>
+            <div class="filter-group date-row">
+                <div style="flex: 1;">
+                    <label class="filter-label">Data Inicial</label>
+                    <input type="date" class="form-control" value="2000-01-01">
+                </div>
+                <div style="flex: 1;">
+                    <label class="filter-label">Data Final</label>
+                    <input type="date" class="form-control" value="2026-02-26">
+                </div>
+            </div>
 
-            <div class="filter-group">
-                <label class="filter-label">O.S (Número)</label>
-                <input type="text" class="form-control" placeholder="Ex: 111712/2026">
-            </div>
+            <div class="filter-group">
+                <label class="filter-label">O.S (Número)</label>
+                <input type="text" class="form-control" placeholder="Ex: 111712/2026">
+            </div>
 
-            <div class="filter-group">
-                <label class="filter-label">Etiqueta SOS</label>
-                <input type="text" class="form-control" placeholder="Ex: SOS-9988">
-            </div>
+            <div class="filter-group">
+                <label class="filter-label">Etiqueta SOS</label>
+                <input type="text" class="form-control" placeholder="Ex: SOS-9988">
+            </div>
 
-            <div class="filter-group">
-                <label class="filter-label">Tipo de Solicitação</label>
-                <select class="form-control">
-                    <option>Todos</option>
-                    <option>Empréstimo</option>
-                    <option>Devolução</option>
-                    <option>Digitalização</option>
-                    <option>Implantação</option>
-                    <option>Suprimento</option>
-                    <option>Saída definitiva</option>
-                    <option>Movimentação</option>
-                    <option>Expurgo</option>
-                </select>
-            </div>
+            <div class="filter-group">
+                <label class="filter-label">Tipo de Solicitação</label>
+                <select class="form-control">
+                    <option>Todos</option>
+                    <option>Empréstimo</option>
+                    <option>Devolução</option>
+                    <option>Digitalização</option>
+                    <option>Implantação</option>
+                    <option>Suprimento</option>
+                    <option>Saída definitiva</option>
+                    <option>Movimentação</option>
+                    <option>Expurgo</option>
+                </select>
+            </div>
 
-            <div class="filter-group">
-                <label class="filter-label">Prioridade</label>
-                <select class="form-control">
-                    <option>Todas</option>
-                    <option>Normal</option>
-                    <option>Urgente</option>
-                </select>
-            </div>
+            <div class="filter-group">
+                <label class="filter-label">Prioridade</label>
+                <select class="form-control">
+                    <option>Todas</option>
+                    <option>Normal</option>
+                    <option>Urgente</option>
+                </select>
+            </div>
 
-            <div class="filter-group">
-                <label class="filter-label">Status SLA</label>
-                <select class="form-control">
-                    <option>Todos</option>
-                    <option>No prazo</option>
-                    <option>Próximo ao vencimento</option>
-                    <option>Atrasado</option>
-                </select>
-            </div>
+            <div class="filter-group">
+                <label class="filter-label">Status SLA</label>
+                <select class="form-control">
+                    <option>Todos</option>
+                    <option>No prazo</option>
+                    <option>Próximo ao vencimento</option>
+                    <option>Atrasado</option>
+                </select>
+            </div>
 
-            <div class="filter-group">
-                <label class="filter-label">Tipo de Solicitante</label>
-                <select class="form-control">
-                    <option>Todos</option>
-                    <option>Cliente</option>
-                    <option>Interno</option>
-                    <option>Inativo</option>
-                </select>
-            </div>
+            <div class="filter-group">
+                <label class="filter-label">Tipo de Solicitante</label>
+                <select class="form-control">
+                    <option>Todos</option>
+                    <option>Cliente</option>
+                    <option>Interno</option>
+                    <option>Inativo</option>
+                </select>
+            </div>
 
-            <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 8px;">
-                <button class="btn btn-primary">Filtrar</button>
-                <hr style="margin: 8px 0; border: 0; border-top: 1px solid var(--color-gray-200);">
-                <button class="btn btn-outline">Relatório Analítico</button>
-                <button class="btn btn-outline">Relatório PDF</button>
-                <button class="btn btn-outline">Relatório Excel</button>
-                <button class="btn btn-outline">Relatório de Suprimento</button>
-            </div>
-        </div>
+            <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 8px;">
+                <button class="btn btn-primary">Filtrar</button>
+                <hr style="margin: 8px 0; border: 0; border-top: 1px solid var(--color-gray-200);">
+                <button class="btn btn-outline">Relatório Analítico</button>
+                <button class="btn btn-outline">Relatório PDF</button>
+                <button class="btn btn-outline">Relatório Excel</button>
+                <button class="btn btn-outline">Relatório de Suprimento</button>
+            </div>
+        </div>
 
-        <div class="os-list">
-            
-            <div class="os-card urgente">
-                <div class="card-header">
-                    <div class="os-title-block">
-                        <div class="os-num">O.S: 111712/2026</div>
-                        <div class="os-date">Abertura: 02/01/2026 às 09:15</div>
-                    </div>
-                    <div class="badges-right">
-                        <span class="badge badge-urgent">URGENTE</span>
-                        <span class="badge badge-tag">DIGITALIZAÇÃO</span>
-                        <span class="badge badge-status-atendimento">EM ATENDIMENTO</span>
-                        <span class="badge badge-sla-atrasado">SLA ATRASADO</span>
-                    </div>
-                </div>
+        <div class="os-list">
+            
+            <div class="os-card urgente">
+                <div class="card-header">
+                    <div class="os-title-block">
+                        <div class="os-num">O.S: 111712/2026</div>
+                        <div class="os-date">Abertura: 02/01/2026 às 09:15</div>
+                    </div>
+                    <div class="badges-right">
+                        <span class="badge badge-urgent">URGENTE</span>
+                        <span class="badge badge-tag">DIGITALIZAÇÃO</span>
+                        <span class="badge badge-status-atendimento">EM ATENDIMENTO</span>
+                        <span class="badge badge-sla-atrasado">SLA ATRASADO</span>
+                    </div>
+                </div>
 
-                <div class="card-grid">
-                    <div class="info-block">
-                        <span class="info-label">Unidade de Atendimento</span>
-                        <span class="info-value">G2 - GUARDA CEILANDIA II - DF</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Solicitante</span>
-                        <span class="info-value">LETTICIA VITORIA DA SILVA</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Tipo Solicitante</span>
-                        <span class="info-value">Cliente</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Quantidades</span>
-                        <span class="info-value">Itens: 1 | Total: 1</span>
-                    </div>
-                    
-                    <div class="info-block">
-                        <span class="info-label">Status SLA</span>
-                        <span class="info-value text-danger">Atrasado</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Data Limite SLA</span>
-                        <span class="info-value">05/01/2026 às 17:09</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Tempo Decorrido</span>
-                        <span class="info-value">1 mês 21 dias</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Data Finalização</span>
-                        <span class="info-value">-</span>
-                    </div>
-                </div>
+                <div class="card-grid">
+                    <div class="info-block">
+                        <span class="info-label">Unidade de Atendimento</span>
+                        <span class="info-value">G2 - GUARDA CEILANDIA II - DF</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Solicitante</span>
+                        <span class="info-value">LETTICIA VITORIA DA SILVA</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Tipo Solicitante</span>
+                        <span class="info-value">Cliente</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Quantidades</span>
+                        <span class="info-value">Itens: 1 | Total: 1</span>
+                    </div>
+                    
+                    <div class="info-block">
+                        <span class="info-label">Status SLA</span>
+                        <span class="info-value text-danger">Atrasado</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Data Limite SLA</span>
+                        <span class="info-value">05/01/2026 às 17:09</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Tempo Decorrido</span>
+                        <span class="info-value">1 mês 21 dias</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Data Finalização</span>
+                        <span class="info-value">-</span>
+                    </div>
+                </div>
 
-                <div class="card-actions">
-                    <button class="btn-action primary">Atender</button>
-                    <button class="btn-action success">Finalizar</button>
-                    <button class="btn-action">Visualizar</button>
-                    <button class="btn-action">Histórico</button>
-                    <button class="btn-action danger">Cancelar</button>
-                </div>
-            </div>
+                <div class="card-actions">
+                    <button class="btn-action primary">Atender</button>
+                    <button class="btn-action success">Finalizar</button>
+                    <button class="btn-action">Visualizar</button>
+                    <button class="btn-action">Histórico</button>
+                    <button class="btn-action danger">Cancelar</button>
+                </div>
+            </div>
 
-            <div class="os-card normal">
-                <div class="card-header">
-                    <div class="os-title-block">
-                        <div class="os-num">O.S: 112005/2026</div>
-                        <div class="os-date">Abertura: 25/02/2026 às 14:20</div>
-                    </div>
-                    <div class="badges-right">
-                        <span class="badge badge-normal">NORMAL</span>
-                        <span class="badge badge-tag">MOVIMENTAÇÃO</span>
-                        <span class="badge badge-status-aberta">ABERTA</span>
-                        <span class="badge badge-sla-prazo">SLA NO PRAZO</span>
-                    </div>
-                </div>
+            <div class="os-card normal">
+                <div class="card-header">
+                    <div class="os-title-block">
+                        <div class="os-num">O.S: 112005/2026</div>
+                        <div class="os-date">Abertura: 25/02/2026 às 14:20</div>
+                    </div>
+                    <div class="badges-right">
+                        <span class="badge badge-normal">NORMAL</span>
+                        <span class="badge badge-tag">MOVIMENTAÇÃO</span>
+                        <span class="badge badge-status-aberta">ABERTA</span>
+                        <span class="badge badge-sla-prazo">SLA NO PRAZO</span>
+                    </div>
+                </div>
 
-                <div class="card-grid">
-                    <div class="info-block">
-                        <span class="info-label">Unidade de Atendimento</span>
-                        <span class="info-value">G1 - GUARDA CEILANDIA I - DF</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Solicitante</span>
-                        <span class="info-value">RAFAEL CARVALHO</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Tipo Solicitante</span>
-                        <span class="info-value">Interno</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Quantidades</span>
-                        <span class="info-value">Itens: 52 | Total: 52</span>
-                    </div>
-                    
-                    <div class="info-block">
-                        <span class="info-label">Status SLA</span>
-                        <span class="info-value">No prazo</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Data Limite SLA</span>
-                        <span class="info-value">28/02/2026 às 18:00</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Tempo Decorrido</span>
-                        <span class="info-value">1 dia</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Data Finalização</span>
-                        <span class="info-value">-</span>
-                    </div>
-                </div>
+                <div class="card-grid">
+                    <div class="info-block">
+                        <span class="info-label">Unidade de Atendimento</span>
+                        <span class="info-value">G1 - GUARDA CEILANDIA I - DF</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Solicitante</span>
+                        <span class="info-value">RAFAEL CARVALHO</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Tipo Solicitante</span>
+                        <span class="info-value">Interno</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Quantidades</span>
+                        <span class="info-value">Itens: 52 | Total: 52</span>
+                    </div>
+                    
+                    <div class="info-block">
+                        <span class="info-label">Status SLA</span>
+                        <span class="info-value">No prazo</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Data Limite SLA</span>
+                        <span class="info-value">28/02/2026 às 18:00</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Tempo Decorrido</span>
+                        <span class="info-value">1 dia</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Data Finalização</span>
+                        <span class="info-value">-</span>
+                    </div>
+                </div>
 
-                <div class="card-actions">
-                    <button class="btn-action primary">Iniciar Atendimento</button>
-                    <button class="btn-action">Visualizar</button>
-                    <button class="btn-action">Histórico</button>
-                    <button class="btn-action danger">Cancelar</button>
-                </div>
-            </div>
+                <div class="card-actions">
+                    <button class="btn-action primary">Iniciar Atendimento</button>
+                    <button class="btn-action">Visualizar</button>
+                    <button class="btn-action">Histórico</button>
+                    <button class="btn-action danger">Cancelar</button>
+                </div>
+            </div>
 
-            <div class="os-card finalizada">
-                <div class="card-header">
-                    <div class="os-title-block">
-                        <div class="os-num">O.S: 110998/2026</div>
-                        <div class="os-date">Abertura: 15/01/2026 às 10:00</div>
-                    </div>
-                    <div class="badges-right">
-                        <span class="badge badge-normal">NORMAL</span>
-                        <span class="badge badge-tag">EMPRÉSTIMO</span>
-                        <span class="badge badge-status-finalizada">FINALIZADA</span>
-                        <span class="badge badge-sla-prazo">SLA CUMPRIDO</span>
-                    </div>
-                </div>
+            <div class="os-card finalizada">
+                <div class="card-header">
+                    <div class="os-title-block">
+                        <div class="os-num">O.S: 110998/2026</div>
+                        <div class="os-date">Abertura: 15/01/2026 às 10:00</div>
+                    </div>
+                    <div class="badges-right">
+                        <span class="badge badge-normal">NORMAL</span>
+                        <span class="badge badge-tag">EMPRÉSTIMO</span>
+                        <span class="badge badge-status-finalizada">FINALIZADA</span>
+                        <span class="badge badge-sla-prazo">SLA CUMPRIDO</span>
+                    </div>
+                </div>
 
-                <div class="card-grid" style="opacity: 0.85;">
-                    <div class="info-block">
-                        <span class="info-label">Unidade de Atendimento</span>
-                        <span class="info-value">G2 - GUARDA CEILANDIA II - DF</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Solicitante</span>
-                        <span class="info-value">CARLOS MENDES</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Tipo Solicitante</span>
-                        <span class="info-value">Cliente</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Quantidades</span>
-                        <span class="info-value">Itens: 5 | Total: 5</span>
-                    </div>
-                    
-                    <div class="info-block">
-                        <span class="info-label">Status SLA</span>
-                        <span class="info-value">No prazo</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Data Limite SLA</span>
-                        <span class="info-value">20/01/2026 às 10:00</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Tempo Decorrido</span>
-                        <span class="info-value">2 dias</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="info-label">Data Finalização</span>
-                        <span class="info-value text-success">17/01/2026 às 14:30</span>
-                    </div>
-                </div>
+                <div class="card-grid" style="opacity: 0.85;">
+                    <div class="info-block">
+                        <span class="info-label">Unidade de Atendimento</span>
+                        <span class="info-value">G2 - GUARDA CEILANDIA II - DF</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Solicitante</span>
+                        <span class="info-value">CARLOS MENDES</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Tipo Solicitante</span>
+                        <span class="info-value">Cliente</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Quantidades</span>
+                        <span class="info-value">Itens: 5 | Total: 5</span>
+                    </div>
+                    
+                    <div class="info-block">
+                        <span class="info-label">Status SLA</span>
+                        <span class="info-value">No prazo</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Data Limite SLA</span>
+                        <span class="info-value">20/01/2026 às 10:00</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Tempo Decorrido</span>
+                        <span class="info-value">2 dias</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="info-label">Data Finalização</span>
+                        <span class="info-value text-success">17/01/2026 às 14:30</span>
+                    </div>
+                </div>
 
-                <div class="card-actions">
-                    <button class="btn-action">Visualizar</button>
-                    <button class="btn-action">Histórico</button>
-                </div>
-            </div>
+                <div class="card-actions">
+                    <button class="btn-action">Visualizar</button>
+                    <button class="btn-action">Histórico</button>
+                </div>
+            </div>
 
-        </div>
-    </div>
+        </div>
+    </div>
 </div>
 
 </body>
